@@ -5,12 +5,6 @@ const {
 } = require('../schemas/word-schema');
 
 class WordDAO {
-	/**단어장에 따라 단어찾기 */
-	async findWordsByBook(books) {
-		const words = await WordModel.find({ book: books });
-		return words;
-	}
-
 	async findOneById({ short_id: id }) {
 		// console.log('DAO : ' + { short_id: id })
 		const word = await WordModel.findOne({ short_id: id });

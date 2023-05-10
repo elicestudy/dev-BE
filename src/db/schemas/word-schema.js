@@ -9,7 +9,6 @@ const WordSchema = new Schema(
 		korean: { type: String, required: true },
 		pronounce: { type: String },
 		description: { type: String },
-		book: { type: String, default: '기본단어장' },
 	},
 	{
 		collection: 'Word',
