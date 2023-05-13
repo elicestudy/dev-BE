@@ -2,8 +2,8 @@ const { wordDAO } = require('../db/dao/word-dao');
 const { BookModel } = require('../db/schemas/book-schema');
 
 class WordService {
-	async findWordsByBook(userEmail, books) {
-		const words = await wordDAO.findWordsByBook(userEmail, books);
+	async findWordsByBook(userEmail, bookId) {
+		const words = await wordDAO.findWordsByBook(userEmail, bookId);
 		if (!words) {
 			const err = new Error('단어를 찾을 수 없습니다.');
 			err.status = 404;

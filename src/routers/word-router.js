@@ -2,7 +2,7 @@ const { Router } = require('express');
 const { wordService } = require('../services/word-service');
 const { asyncHandler } = require('../middlewares/async-handler');
 const verifyToken = require('../middlewares/auth-handler');
-
+const { wordMeaningService } = require('../services/wordMeaning-service');
 const wordRouter = Router();
 
 wordRouter.get(
@@ -13,7 +13,7 @@ wordRouter.get(
 		if (Object.keys(req.query).length > 0) {
 			const wordsByBook = await wordService.findWordsByBook(
 				userEmail,
-				req.query.books,
+				req.query.bookId,
 			);
 			res.status(200).json(wordsByBook);
 		} else {
