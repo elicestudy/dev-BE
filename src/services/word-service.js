@@ -34,13 +34,23 @@ class WordService {
 	}
 
 	async createOne(params) {
-		/** 없는 단어장을 기재하여 추가하려한다면 에러 반환 */
-		const existingBook = await BookModel.find({
-			bookId: params.book,
+		console.log(params);
+		/** 단어장id 및 유저이메일로 검증 */
+		const existingBook = await BookModel.findOne({
+			short_id: params.bookId,
 			ownerEmail: params.ownerEmail,
+			start_lang: params.lang
 		});
+		/** 없는 단어장을 기재하여 추가하려한다면 에러 반환 */
+		console.log('existingBook:' + existingBook);
 		if (!existingBook) {
 			const err = new Error('해당 단어장이 존재하지 않습니다.');
+			err.status = 422;
+			throw err;
+		}
+		/** 단어장의 언어설정에 부합하지 않으면 에러 반환 */
+		if (existingBook.start_lang !== params.lang) {
+			const err = new Error('언어 설정에 부합하지 않습니다.');
 			err.status = 422;
 			throw err;
 		}
@@ -60,10 +70,10 @@ class WordService {
 			const existingBook = await BookModel.find({
 				name: word.book,
 				ownerEmail: word.ownerEmail,
+				start_lang: word.lang
 			});
-			//추후 bookDAO 나 BookService로 수정 필요
-			if (!existingBook) {
-				const err = new Error('해당 단어장이 존재하지 않습니다.');
+			if (existingBook.start_lang !== params.lang) {
+				const err = new Error('언어 설정에 부합하지 않습니다.');
 				err.status = 422;
 				throw err;
 			}

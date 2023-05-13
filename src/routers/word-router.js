@@ -1,4 +1,7 @@
 const { Router } = require('express');
+
+// const { WordModel } = require('../db/schemas/word-schema');
+// const { BookModel } = require('../db/schemas/book-schema');
 const { wordService } = require('../services/word-service');
 const { asyncHandler } = require('../middlewares/async-handler');
 const verifyToken = require('../middlewares/auth-handler');
@@ -9,6 +12,8 @@ wordRouter.get(
 	'/',
 	verifyToken,
 	asyncHandler(async (req, res) => {
+		// await BookModel.deleteMany({});
+		// await WordModel.deleteMany({});
 		const { userEmail } = req.user;
 		if (Object.keys(req.query).length > 0) {
 			const wordsByBook = await wordService.findWordsByBook(
@@ -44,15 +49,20 @@ wordRouter.post(
 		/**배열로 여러개 생성하려한다면 */
 		if (Array.isArray(req.body)) {
 			const newWordsArray = req.body;
-			newWordsArray.forEach(word => {
+			newWordsArray.forEach(async word => {
+				const meanings = await wordMeaningService.getWordMeanings(word.lang, word.word);
 				word.ownerEmail = userEmail;
+				word.meanings = meanings;
 			});
 			const result = await wordService.createMany(newWordsArray);
 			res.status(200).json(result);
 		} else {
 			/**하나만 생성하려한다면 */
+			const { lang, word } = req.body;
+			const meanings = await wordMeaningService.getWordMeanings(lang, word);
 			const newWord = req.body;
 			newWord.ownerEmail = userEmail;
+			newWord.meanings = meanings;
 			const result = await wordService.createOne(newWord);
 			console.log(result);
 			res.status(200).json(result);

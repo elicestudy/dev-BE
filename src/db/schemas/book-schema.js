@@ -9,14 +9,14 @@ const BookSchema = new Schema(
 		description: { type: String },
 		start_lang: {
 			type: String,
-			enum: ['english', 'korean'],
+			enum: ['en', 'ko'],
 			default: 'english',
 			required: true,
 		},
 		end_lang: {
 			type: String,
-			enum: ['english', 'korean'],
-			default: 'korean',
+			enum: ['en', 'ko'],
+			default: 'ko',
 			required: true,
 		},
 		ownerEmail: {
