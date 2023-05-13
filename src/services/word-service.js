@@ -39,7 +39,7 @@ class WordService {
 		const existingBook = await BookModel.findOne({
 			short_id: params.bookId,
 			ownerEmail: params.ownerEmail,
-			start_lang: params.lang
+			start_lang: params.lang,
 		});
 		/** 없는 단어장을 기재하여 추가하려한다면 에러 반환 */
 		console.log('existingBook:' + existingBook);
@@ -70,7 +70,7 @@ class WordService {
 			const existingBook = await BookModel.find({
 				name: word.book,
 				ownerEmail: word.ownerEmail,
-				start_lang: word.lang
+				start_lang: word.lang,
 			});
 			if (existingBook.start_lang !== params.lang) {
 				const err = new Error('언어 설정에 부합하지 않습니다.');
@@ -92,10 +92,10 @@ class WordService {
 		/** 수정할 단어의 전체 정보 */
 		const currWord = await wordDAO.findOneById(clue);
 		/** 해당 유저가 가진 단어장이 맞는지 */
-		//추후 bookDAO 나 BookService로 수정 
+		//추후 bookDAO 나 BookService로 수정
 		const thisBook = await BookModel.findOne({
 			ownerEmail: currWord.ownerEmail,
-			short_id: currWord.bookId
+			short_id: currWord.bookId,
 		});
 		/** 없는 단어장을 기재하여 추가하려한다면 */
 		if (!thisBook) {

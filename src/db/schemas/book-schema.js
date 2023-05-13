@@ -10,7 +10,7 @@ const BookSchema = new Schema(
 		start_lang: {
 			type: String,
 			enum: ['en', 'ko'],
-			default: 'english',
+			default: 'en',
 			required: true,
 		},
 		end_lang: {
