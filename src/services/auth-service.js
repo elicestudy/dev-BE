@@ -6,8 +6,11 @@ class AuthService {
 	async login(userEmail, password) {
 		// 이메일로 사용자 조회
 		const user = await userDAO.findUserByEmail(userEmail);
+
 		if (!user) {
-			throw new Error('존재하지 않는 사용자입니다.');
+			const error = new Error('이메일 혹은 비밀번호가 일치하지 않습니다.');
+			error.status = 401;
+			throw error;
 		}
 
 		// 비밀번호 검증
@@ -16,7 +19,9 @@ class AuthService {
 			user.password,
 		);
 		if (!isValidPassword) {
-			throw new Error('비밀번호가 일치하지 않습니다.');
+			const error = new Error('이메일 혹은 비밀번호가 일치하지 않습니다.');
+			error.status = 401;
+			throw error;
 		}
 
 		//JWT 토큰 발급

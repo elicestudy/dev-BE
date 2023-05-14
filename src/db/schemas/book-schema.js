@@ -9,21 +9,21 @@ const BookSchema = new Schema(
 		description: { type: String },
 		start_lang: {
 			type: String,
-			enum: ['english', 'korean'],
-			default: 'english',
+			enum: ['en', 'ko'],
+			default: 'en',
 			required: true,
 		},
 		end_lang: {
 			type: String,
-			enum: ['english', 'korean'],
-			default: 'korean',
+			enum: ['en', 'ko'],
+			default: 'ko',
 			required: true,
 		},
 		ownerEmail: {
 			type: String,
 			required: true,
 			// match: [/\S+@\S+.\S+/, 'is invalid'],
-		}
+		},
 	},
 	{
 		collection: 'Book',

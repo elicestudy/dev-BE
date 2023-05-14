@@ -11,6 +11,11 @@ class BookService {
 		return books;
 	}
 
+	async findOneByUserAndId(userEmail, bookId) {
+		const books = await bookDAO.findOneByUserAndId(userEmail, bookId);
+		return books;
+	}
+
 	async findAll() {
 		const books = await bookDAO.findAll();
 		return books;

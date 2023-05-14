@@ -8,6 +8,8 @@ class WordDAO {
 	}
 
 	async findOneById(clue) {
+		// console.log('dao' + clue);
+		// console.log('dao' + word);
 		const word = await WordModel.findOne(clue);
 		return word;
 	}
@@ -27,8 +29,8 @@ class WordDAO {
 		return word;
 	}
 
-	async updateOne(find, update) {
-		const word = await WordModel.findOneAndUpdate(find, update, {
+	async updateOne(clue, update) {
+		const word = await WordModel.findOneAndUpdate(clue.short_id, update, {
 			new: true,
 		});
 		return word;

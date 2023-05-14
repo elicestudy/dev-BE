@@ -1,5 +1,4 @@
 const { wordDAO } = require('../db/dao/word-dao');
-const { bookDAO } = require('../db/dao/book-dao');
 const { BookModel } = require('../db/schemas/book-schema');
 
 class WordService {
@@ -15,6 +14,7 @@ class WordService {
 
 	async findOneById(clue) {
 		const word = await wordDAO.findOneById(clue);
+		console.log(clue);
 		if (!word) {
 			const err = new Error('단어를 찾을 수 없습니다.');
 			err.status = 404;
@@ -82,21 +82,19 @@ class WordService {
 		/** 수정할 단어의 전체 정보 */
 		const currWord = await wordDAO.findOneById(clue);
 		/** 해당 유저가 가진 단어장이 맞는지 */
-		const allBooksOfThisUser = await BookModel.find({
-			ownerEmail: clue.userEmail,
+		//추후 bookDAO 나 BookService로 수정 
+		const thisBook = await BookModel.findOne({
+			ownerEmail: currWord.ownerEmail,
+			short_id: currWord.bookId
 		});
-		//추후 bookDAO 나 BookService로 수정 필요
-		const thisBook = allBooksOfThisUser.filter(
-			book => book.name === currWord.book,
-		);
 		/** 없는 단어장을 기재하여 추가하려한다면 */
 		if (!thisBook) {
 			const err = new Error('해당 단어장이 존재하지 않습니다.');
 			err.status = 422;
 			throw err;
 		}
+		/** 잘못된 요청을 받았다면 */
 		if (currWord.ownerEmail === clue.ownerEmail) {
-			/** 잘못된 요청을 받았다면 */
 			const newWord = await wordDAO.updateOne(clue, update);
 			if (!newWord) {
 				const err = new Error('단어를 수정하지 못했습니다.');

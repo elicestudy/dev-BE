@@ -15,14 +15,14 @@ bookRouter.get(
 );
 
 bookRouter.get(
-	'/',
+	'/:id',
 	verifyToken,
 	asyncHandler(async (req, res) => {
-		const result = await bookService.findAllByUser({
-			ownerEmail: req.user.userEmail,
-		});{
-		// 	return next(new Error('사용자의 단어장이 없습니다'));
-		}
+		console.log(req.user);
+		const { userEmail } = req.user;
+		const { id } = req.params;
+		const result = await bookService.findOneByUserAndId(userEmail, id);
+		console.log(result);
 		res.status(200).json(result);
 	}),
 );
@@ -49,24 +49,24 @@ bookRouter.post(
 );
 
 bookRouter.delete(
-	'/me/:id',
+	'/:id',
 	verifyToken,
 	asyncHandler(async (req, res) => {
 		const result = await bookService.deleteOne({
-			ownerEmail: req.user.email,
+			ownerEmail: req.user.userEmail,
 			short_id: req.params.id,
 		});
-		res.status(200).json({ message: '단어장이 삭제되었습니다' });
+		res.status(204).json({ message: '단어장이 삭제되었습니다' });
 	}),
 );
 
 bookRouter.put(
-	'/me/:id',
+	'/:id',
 	verifyToken,
 	asyncHandler(async (req, res) => {
 		const updatedBook = req.body;
 		const result = await bookService.updateOne(
-			{ ownerEmail: req.user.email, short_id: req.params.id },
+			{ ownerEmail: req.user.userEmail, short_id: req.params.id },
 			updatedBook,
 		);
 		res.status(200).json(result);

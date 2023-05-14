@@ -2,7 +2,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 //wordMeaningService
-class WordMeaningService {
+class MeaningService {
 	async getWordMeanings(lang, word) {
 		if (lang === 'en') {
 			// 영=> 한
@@ -59,5 +59,5 @@ class WordMeaningService {
 	}
 }
 
-const wordMeaningService = new WordMeaningService();
-module.exports = { wordMeaningService };
+const meaningService = new MeaningService();
+module.exports = { meaningService };
