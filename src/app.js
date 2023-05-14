@@ -9,6 +9,7 @@ const { meaningRouter } = require('./routers/meaning-router');
 const { bookRouter } = require('./routers/book-router');
 const { userRouter } = require('./routers/user-router');
 const { authRouter } = require('./routers/auth-router');
+const { searchRouter } = require('./routers/search-router');
 const { errorHandler } = require('./middlewares/error-handler');
 
 const DB_URL =
@@ -47,7 +48,7 @@ app.use('/api/meanings', meaningRouter);
 app.use('/api/books', bookRouter);
 app.use('/api/users', userRouter);
 app.use('/api/auth', authRouter);
-
+app.use('/api/search', searchRouter);
 app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
