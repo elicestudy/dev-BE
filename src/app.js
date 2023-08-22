@@ -31,9 +31,13 @@ db.once('connected', () =>
 	console.log('정상적으로 MongoDB 서버에 연결되었습니다.  ' + DB_URL),
 );
 
-// CORS 에러 방지
-app.use(cors());
+const corsOptions = {
+  origin: 'https://ppvoca.vercel.app',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
 
+// CORS 에러 방지
+app.use(cors(corsOptions));
 // Content-Type: application/json 형태의 데이터를 인식하고 핸들링할 수 있게 함.
 app.use(express.json());
 
