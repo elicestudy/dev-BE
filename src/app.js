@@ -32,7 +32,7 @@ db.once('connected', () =>
 );
 
 const corsOptions = {
-  origin: 'https://ppvoca.vercel.app',
+  origin: ['https://ppvoca.vercel.app', 'https://ppvoca.yubinhome.com'],
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
